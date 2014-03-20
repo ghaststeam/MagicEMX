@@ -8,6 +8,19 @@ typedef int64_t sQUAD;
 typedef int32_t sDOUBLE;
 typedef int16_t sWORD;
 typedef int8_t sBYTE;
+
+uBYTE CPU_Cache = 4;
+
+const char *CPU_Operating_Mode[] =
+{
+  "LongMode",
+  "UnrealMode",
+  "ProtectedMode",
+  "SYSMANMode",
+  "RealMode",
+  "16BitMode",
+  "DefaultMode"
+};
 // The number of threads and synchronization between CPU cores for the processors
 const char *Threads[] =
 {
@@ -21,7 +34,7 @@ const char *Threads[] =
   "30SyncMod",
 };
 // The full list of ASCII-reference & recognized opcodes
-uQUAD ProgramCounter = 0;
+uQUAD ProgramCounter = 0x00;
 
 const char *Opcodes[] =
 {
@@ -33,5 +46,50 @@ const char *Opcodes[] =
 "PUSHA",
 "POP",
 "POPA",
+"CALL",
+"CMP",
+"JMP",
+"JNE",
+"JNZ",
+"JZ",
+"CLI",
+"INT",
+"HLT",
+"AND",
+"CLD",
+"CLC",
+"CBW",
+"CMC",
+"DEC",
+"INC",
+"IMUL",
+"ESC",
+"MOV",
+"NOP",
+"NOT",
+"LODSB",
+"LODSW",
+"PUSHF",
+"POPF",
+"OUT",
+"IN",
+"IRET",
+"RET",
+"ROR",
+"ROL",
+"LEA",
+"LDS",
+"LES",
+"LOCK",
+"MUL",
+"NEG",
+"TEST",
+"SUB",
+"XOR",
+"STD",
+"STI",
+"WAIT",
+"SHL",
+"SHR",
 // Will add the rest; operands and addressing modes compared with opcode later
 };

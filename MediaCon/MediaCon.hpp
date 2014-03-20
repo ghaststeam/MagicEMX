@@ -8,6 +8,22 @@ unsigned short ALUFLAGS[] =
 3, // Carry
 4, // Overflow
 };
+const char *ARM_Mode[] =
+{
+  "Thumb",
+  "ARM",
+  "User",
+  "FIQ",
+  "IRQ",
+  "Supervisor",
+  "Abort",
+  "Undefined",
+  "Hypervisor",
+  "System",
+  "Monitor",
+  "Default",
+};
+}
 const char *ThreadSync[] =
 {
 "2Thread6Thread",

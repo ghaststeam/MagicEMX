@@ -1,4 +1,5 @@
 #include <windows.h>
+#include "/Firmware/FlashBlobs.hpp"
 // Will change to WxWidgets later
 #define IDM_MYMENURESOURCE   3
 int APIENTRY WinMain(HINSTANCE hThis, HINSTANCE hPrev, LPSTR cmd, int Show)
@@ -46,6 +47,13 @@ LRESULT CALLBACK WINDOW(HWND hwnd, unsigned int message, WPARAM wparam, LPARAM l
 {
 switch(message)
 {
+case 
+WM_COMMAND:
+switch(LOWORD(wParam))
+{
+case
+IDM_FI_OPEN: break; // Needs toggle specific function
+}
 case
 WM_PAINT: break;
 // This won't be used for GPU stuff

@@ -1,13 +1,6 @@
 // SCEI CXD90025G, also known as the "MediaCon", is a secondary ARM microprocessor in PS4
 // Containing the ARM v7 and v8 mnemonics
 // Threading parallelism between x86's 8-cores
-struct MediaCon
-{
-  void CPU_Init(short &counterbase);
-  void HLT_PRL(int &threadbase, void*);
-  void ChangeMode();
-  void FetchOp();
-}; MediaCon MC;
 
 unsigned short ALUFLAGS[] =
 {

@@ -1,3 +1,6 @@
+#include "/PS4EMX/MediaCon/MediaCon.hpp"
+#include <fstream>
+void readBIOS(); // Read flash dump header below, both in offset 0x0 and 0x3000
 // Main magic number
 const char *MainMagic[] =
 {

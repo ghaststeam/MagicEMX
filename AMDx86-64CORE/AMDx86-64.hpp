@@ -36,6 +36,19 @@ const char *Threads[] =
 // The full list of ASCII-reference & recognized opcodes
 uQUAD ProgramCounter = 0x00;
 
+struct operands_addressing
+{
+const char *operand[] =
+"m8",
+"m16",
+"m32",
+"m64",
+"r8",
+"r16",
+"r32",
+"r64",
+"rAX",
+};
 const char *Opcodes[] =
 {
 "AAC",

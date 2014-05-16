@@ -10,7 +10,67 @@ typedef int16_t sWORD;
 typedef int8_t sBYTE;
 
 uBYTE CPU_Cache = 4;
-
+uBYTE Cache_Types = 28;
+struct Register_List
+{
+  // 8-bit
+  uBYTE AH;
+  uBYTE AL;
+  uBYTE CH;
+  uBYTE CL;
+  uBYTE DH;
+  uBYTE DL;
+  uBYTE BH;
+  uBYTE BL;
+  // 16-bit
+  uWORD AX;
+  uWORD CX;
+  uWORD DX;
+  uWORD BX;
+  uWORD SP;
+  uWORD BP;
+  uWORD SI;
+  uWORD DI;
+  uWORD IP;
+  // 32-bit
+  uDOUBLE EAX;
+  uDOUBLE ECX;
+  uDOUBLE EDX;
+  uDOUBLE EBX;
+  uDOUBLE ESP;
+  uDOUBLE EBP;
+  uDOUBLE ESI;
+  uDOUBLE EDI;
+  uDOUBLE EFLAGS;
+  uWORD EIP;
+  // 64-bit
+  uQUAD RAX;
+  uQUAD RCX;
+  uQUAD RDX;
+  uQUAD RBX;
+  uQUAD RSP;
+  uQUAD RBP;
+  uQUAD RSI;
+  uQUAD RDI;
+  uQUAD RIP;
+  
+  
+} REGISTER;
+const char *FLAGS[] =
+{
+  "Carry",
+  "Parity",
+  "Adjust",
+  "Zero",
+  "Sign",
+  "Trap",
+  "Interrupt",
+  "Direction",
+  "IO",
+  "Overflow",
+  "Nested",
+  "/Reserved"
+};
 const char *CPU_Operating_Mode[] =
 {
   "LongMode",
@@ -48,6 +108,11 @@ const char *operand[] =
 "r32",
 "r64",
 "rAX",
+"Base",
+"Index",
+"Scale",
+"MOD"
+"R/M"
 };
 const char *Opcodes[] =
 {

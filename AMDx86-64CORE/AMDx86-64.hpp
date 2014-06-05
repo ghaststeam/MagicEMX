@@ -93,7 +93,7 @@ const char *Threads[] =
   "24SyncMod",
   "30SyncMod",
 };
-// The full list of ASCII-reference & recognized opcodes
+
 uQUAD ProgramCounter = 0x00;
 
 struct operands_addressing
@@ -169,5 +169,17 @@ const char *Opcodes[] =
 "WAIT",
 "SHL",
 "SHR",
+"SBB",
+"PUSHD",
+"IMUL",
+"JC",
+"JB",
+"WAIT",
+"XCHG",
+"CALLF",
+"ENTER",
+"LEAVE",
+"HLT",
+
 // Will add the rest; operands and addressing modes compared with opcode later
 };

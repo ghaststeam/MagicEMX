@@ -1,5 +1,12 @@
 #include <cstdint>
 #include <fstream>
+void Write8(const int &addr8, int datawidth);
+void Write16(const int &addr16, int datawidth);
+void Write32(const int &addr32, int datawidth);
+void Write64(const int &addr64, int datawidth);
+void Write32RDNGCNVERTEX(const int &VECTORADDR, int *vectorval, bool IS_SCHEDULED, bool V_MAPPABLE);
+uint8_t *HEAP_SIZE = NULL; // Address to fixed heap memory for HLE kernel-mode
+uint8_t *VRAM_SIZE = NULL; // To contain the address of GCN's range
 const char *DS4_1MAP[] =
 {
    "0x7CCFFEE", // Start
@@ -11,7 +18,7 @@ const char *VHDSK_MAP[] =
    "0X8BFFC9", // Mirrored
    "0X8FFCCC",
 };
-const char *RDNCGN_MAP[] =
+const char *RDNGCN_MAP[] =
 {  
    "0x9CCFFDE", // Start
    "0x9FFFF00", // End

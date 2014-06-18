@@ -1,5 +1,10 @@
 #include <cstdint>
 // Using 2's complement, this makes memory addressing, reads, writes, etc., more modular
+////////////
+////////////
+template <typename Register>
+////////////
+///////////
 typedef uint64_t uQUAD;
 typedef uint32_t uDOUBLE;
 typedef uint16_t uWORD;
@@ -8,7 +13,10 @@ typedef int64_t sQUAD;
 typedef int32_t sDOUBLE;
 typedef int16_t sWORD;
 typedef int8_t sBYTE;
-
+///////////
+///////////
+void InitRegister(NULL);
+void InitRegisterValue(Register& value);
 uBYTE CPU_Cache = 4;
 uBYTE Cache_Types = 28;
 struct Register_List
@@ -56,6 +64,16 @@ struct Register_List
   
   
 } REGISTER;
+const char *REG_SUB_TYPE[] =
+{
+  "NONE",
+  "LOWBYTE",
+  "HIGHBYTE"
+  "FULL",
+  "LOWORD"
+  
+};
+
 const char *FLAGS[] =
 {
   "Carry",

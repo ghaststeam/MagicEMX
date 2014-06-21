@@ -1,6 +1,11 @@
 #include "/PS4EMX/MediaCon/MediaCon.hpp"
+#include "/PS4EMX/Memory/Memory.hpp"
 #include <fstream>
-void readBIOS(); // Read flash dump header below, both in offset 0x0 and 0x3000
+std::ifstream Magic (ifstream::binary);
+template<typename Size>
+void PassMemoryLS(Size& size); // Once done with Memory.cpp soon, hopefully
+void WriteMemoryLs(Size& size);
+// Going to do this a different way
 // Main magic number
 const char *MainMagic[] =
 {

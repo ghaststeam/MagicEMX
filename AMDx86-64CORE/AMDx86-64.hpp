@@ -1,6 +1,18 @@
 #include <cstdint>
 // Using 2's complement, this makes memory addressing, reads, writes, etc., more modular
 ////////////
+struct BaseInterrupts
+{
+  uBYTE ROMDBG;
+  uBYTE SINGLESTEP;
+  uBYTE NMI;
+  uBYTE OVERFLOW;
+  uBYTE PRINTV;
+  uBYTE SLEEPWAKE;
+  uBYTE INVALID;
+  uBYTE IRQONE;
+  uBYTE IRQTWO;
+} INTERRUPT;
 ////////////
 template <typename Register>
 ////////////

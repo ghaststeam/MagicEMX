@@ -1,9 +1,12 @@
 #include <GL/gl.h>
 #include <thread>
+#include "PS4EMX/AMDx86-64CORE/AMDx86-64.hpp"
+///////////////////////
 void SetThread();
 void SetInterpreter();
 bool RendererIsOn = 0;
 bool ExtResFBO = 0;
+//////////////////////
 int cachesizeL1CH1;
 int cachesizeL2CH1;
 int TexCacheC1L1;
@@ -14,10 +17,33 @@ int TexCacheC1L2;
 int TexCacheC2L2;
 int TexCacheC3L2;
 int TexCacheC4L2;
+/////////////////////
 int *workitemprv = NULL;
 int *workitemgrp = NULL;
 int *SIMDops = NULL;
 int *exec_mask = NULL;
+////////////////////
+struct Conditions
+{
+ uBYTE SCALARS;
+ uBYTE VECTORS;
+ uBYTE MEMORY_DESCRIPTOR;
+ uBYTE TRAP_EXCEPTION;
+} CONDITION;
+struct ControlFlow
+{
+ bool TERMINATE_PGM_WV;
+ bool NO_OP_CT;
+ uBYTE NO_OP_CT_MAX = 8;
+ bool INIT_TRAP_HANDLER;
+ bool RETURN_TRAP;
+ const uBYTE TRAP_PRIORITY;
+ uWORD WAVEFRONT_SLEEP;
+ uBYTE *MSG_INTERRUPT = NULL;
+ bool UNCONDITIONAL_SET;
+ uBYTE *SWAP_PC_SGPR = NULL;
+ bool IGNORE_VECTOR_IN;
+} CTRL;
 struct Threading
 {
  thread THREAD_CU (SetThread);
@@ -31,7 +57,11 @@ short FBO_Vertex;
 } FBO_Mode;
 static short screen_width = 1920;
 static short screen_height = 1080;
-extern static long long int PC = 0, 0, 0, 0;
+int totalPCs = 1200;
+extern static long long int PC = 0, 0;
+/////////////////////////////////////////////////////////////////////
+void SETPAIR_SGPR_PC(short &PAIRTYPE, int conditional);
+void SWAP_PCADDR_SGPR(short &addrP);
 void ColorDepthBuffer_WR(short &vertexop, void*, int microcode_es);
 const char *GPU_REGS[] =
 {

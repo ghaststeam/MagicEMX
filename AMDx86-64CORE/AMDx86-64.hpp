@@ -25,15 +25,6 @@ struct BaseInterrupts
   uBYTE IRQTWO;
 } INTERRUPT;
 ///////////
-typedef uint64_t uQUAD;
-typedef uint32_t uDOUBLE;
-typedef uint16_t uWORD;
-typedef uint8_t uBYTE;
-typedef int64_t sQUAD;
-typedef int32_t sDOUBLE;
-typedef int16_t sWORD;
-typedef int8_t sBYTE;
-///////////
 ///////////
 void InitRegister(NULL);
 void InitRegisterValue(Register& value);

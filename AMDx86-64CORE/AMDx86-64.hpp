@@ -10,6 +10,13 @@ typedef int32_t sDOUBLE;
 typedef int16_t sWORD;
 typedef int8_t sBYTE;
 ////////////
+uDOUBLE FrequencyMain = 1700000000;
+uWORD LastFrequency = 0;
+uWORD UpTick = 900000;
+uWORD Def_PIT_Frequency = 65535;
+uWORD Current_Cycle = 0;
+uBYTE Cycles = 0;
+////////////
 template <typename Register>
 ////////////
 struct BaseInterrupts

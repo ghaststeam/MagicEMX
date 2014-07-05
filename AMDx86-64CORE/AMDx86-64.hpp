@@ -1,4 +1,5 @@
 #include <cstdint>
+#include "PS4EMX/Memory/Memory.hpp"
 // Using 2's complement, this makes memory addressing, reads, writes, etc., more modular
 ////////////
 typedef uint64_t uQUAD;
@@ -16,8 +17,12 @@ uWORD UpTick = 900000;
 uWORD Def_PIT_Frequency = 65535;
 uWORD Current_Cycle = 0;
 uBYTE Cycles = 0;
+uQUAD STACK_SIZE = 0;
+uBYTE HALT_STATUS = 0;
+uDOUBLE BOOT_JUMP = 0;
 ////////////
 template <typename Register>
+template <typename PORT>
 ////////////
 struct BaseInterrupts
 {
@@ -35,6 +40,7 @@ struct BaseInterrupts
 ///////////
 void InitRegister(NULL);
 void InitRegisterValue(Register& value);
+bool CacheLookUp(uQUAD &address, bool typeS);
 uBYTE CPU_Cache = 4;
 uBYTE Cache_Types = 28;
 struct Register_List
@@ -215,7 +221,9 @@ const char *Opcodes[] =
 "CALLF",
 "ENTER",
 "LEAVE",
-"HLT",
+"MFENCE",
+"LFENCE",
+"SFENCE",
 
 // Will add the rest; operands and addressing modes compared with opcode later
 };

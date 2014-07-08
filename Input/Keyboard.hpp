@@ -1,11 +1,25 @@
 #include <gl/gl.h>
 #include <GL/glut.h>
+#include "PS4EMX/AMDx86-64CORE/AMDx86-64.hpp"
 class Keyboard
 {
 public: 
 Keyboard(bool Keys[10]);
 ~Keyboard(int &ObjKY);
 };
+struct callbacks
+{
+ int *MMIO_RANGE1;
+ short Cycle_LN = 65535 / LastFrequency;
+ const char *STATUS_FLAGS[] =
+ {
+   "ACK",
+   "NO_VIB",
+   "DATA",
+   "BYTEPACK",
+   "WORDPACK"
+ };
+}
 enum Buttons
 {
 CROSS = 0x00;

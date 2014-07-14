@@ -1,6 +1,5 @@
 #include <cstdint>
 #include <fstream>
-template<typename BLOCK>
 void Write8(const int &addr8, int datawidth);
 void Write16(const int &addr16, int datawidth);
 void Write32(const int &addr32, int datawidth);
@@ -8,7 +7,6 @@ void Write64(const int &addr64, int datawidth);
 void Write32RDNGCNVERTEX(const int &VECTORADDR, int *vectorval, bool IS_SCHEDULED, bool V_MAPPABLE);
 void Write32SGPRPOT(const int &MAP, bool V_MAPPABLE);
 void ShiftVERTEX(bool SGPR_CLOCK, void*, bool V_MAPPABLE);
-void MMU_Init(BLOCK OFFSET);
 uint8_t *HEAP_SIZE = NULL; // Address to fixed heap memory for HLE kernel-mode
 uint8_t *VRAM_SIZE = NULL; // To contain the address of GCN's range
 const char *DS4_1MAP[] =
@@ -40,43 +38,51 @@ const char *VBLURAYCNT_MAP[] =
 };
 typedef struct _RAM_T8
 
+
 {
-   struct _RAM_T8*   previous, next;
+   const char *_RAM_T8 = nullptr;
    unsigned long     base; 
    unsigned int      flags; 
    unsigned char*    mem;  
    bool v_pageable = 1;
 }RAM_T8;
 
+
 typedef struct _RAM_T16
 
+
 {
-   struct _RAM_T8*   previous, next;
+   const char *_RAM_T16 = nullptr;
    unsigned long     base; 
    unsigned int      flags; 
    unsigned short*    mem;   
    bool v_pageable = 1;
 }RAM_T16;
 
+
 typedef struct _RAM_T32
 
+
 {
-   struct _RAM_T32*   previous, next;
+   const char *_RAM_T32 = nullptr;
    unsigned long     base; 
    unsigned int      flags; 
    unsigned int*    mem;   
    bool v_pageable = 1;
 }RAM_T32;
 
+
 typedef struct _RAM_T64
 
+
 {
-   struct _RAM_T64*   previous, next;
+   const char *_RAM_T64 = nullptr;
    unsigned long     base; 
    unsigned int      flags; 
    unsigned long long int*    mem;  
    bool v_pageable = 1;
 }RAM_T64;
+
 
 typedef struct _VHDSKMAP // Map emulated RAM to harddisk or other storage; to be implemented soon...
 {

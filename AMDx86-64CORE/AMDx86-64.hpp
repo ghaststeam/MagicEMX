@@ -1,5 +1,4 @@
 #include <cstdint>
-#include "PS4EMX/Memory/Memory.hpp"
 // Using 2's complement, this makes memory addressing, reads, writes, etc., more modular
 ////////////
 typedef uint64_t uQUAD;
@@ -13,7 +12,7 @@ typedef int8_t sBYTE;
 ////////////
 uDOUBLE FrequencyMain = 1700000000;
 uWORD LastFrequency = 0;
-uWORD UpTick = 900000;
+uDOUBLE UpTick = 900000;
 uWORD Def_PIT_Frequency = 65535;
 uWORD Current_Cycle = 0;
 uBYTE Cycles = 0;
@@ -22,7 +21,7 @@ uBYTE HALT_STATUS = 0;
 uDOUBLE BOOT_JUMP = 0;
 ////////////
 template <typename Register>
-template <typename PORT>
+void InitRegisterValue(Register& value);
 ////////////
 struct BaseInterrupts
 {
@@ -38,8 +37,7 @@ struct BaseInterrupts
 } INTERRUPT;
 ///////////
 ///////////
-void InitRegister(NULL);
-void InitRegisterValue(Register& value);
+void InitRegister();
 bool CacheLookUp(uQUAD &address, bool typeS);
 uBYTE CPU_Cache = 4;
 uBYTE Cache_Types = 28;
@@ -98,6 +96,7 @@ const char *REG_SUB_TYPE[] =
   
 };
 
+
 const char *FLAGS[] =
 {
   "Carry",
@@ -136,11 +135,14 @@ const char *Threads[] =
   "30SyncMod",
 };
 
+
 uQUAD ProgramCounter = 0x00;
+
 
 struct operands_addressing
 {
-const char *operand[] =
+const char *operand[14] =
+{
 "m8",
 "m16",
 "m32",
@@ -153,8 +155,9 @@ const char *operand[] =
 "Base",
 "Index",
 "Scale",
-"MOD"
-"R/M"
+"MOD",
+"R/M",
+};
 };
 const char *Opcodes[] =
 {
@@ -224,6 +227,4 @@ const char *Opcodes[] =
 "MFENCE",
 "LFENCE",
 "SFENCE",
-
-// Will add the rest; operands and addressing modes compared with opcode later
 };

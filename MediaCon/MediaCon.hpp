@@ -4,14 +4,14 @@
 
 const char *VECTOR_TABLE[] =
 {
-0x00000000, // Reset
-0x0000001C, // Undefined
-0x00000018, // SI
-0x00000014, // PF Abort
-0x00000010, // Data Abort
-0x0000000C, // Reserved
-0x00000008, // IRQ 
-0x00000004, // FIQ
+"0x00000000", // Reset
+"0x0000001C", // Undefined
+"0x00000018", // SI
+"0x00000014", // PF Abort
+"0x00000010", // Data Abort
+"0x0000000C", // Reserved
+"0x00000008", // IRQ 
+"0x00000004", // FIQ
 };
 unsigned short ENDIANNESS[] =
 {
@@ -41,7 +41,7 @@ const char *ARM_Mode[] =
   "Monitor",
   "Default",
 };
-}
+
 const char *ThreadSync[] =
 {
 "2Thread6Thread",
@@ -51,6 +51,7 @@ const char *ThreadSync[] =
 "3ThreadNoSync",
 "4ThreadNoSync",
 };
+
 const char *ARMOpcodes[] =
 {
 "ADC",
@@ -68,6 +69,21 @@ const char *ARMOpcodes[] =
 "LDM",
 "LDR",
 "MCR",
+"LSL",
+"LSR",
+"ASR",
+"ROR",
+"RRX",
+"MOV",
+"EOR",
+"MVN",
+"ORN",
+"ORR",
+"RSB",
+"SBC",
+"SUB",
+"TEQ",
+"TST",
 // Will add rest with x86 opcodes
 };
 enum ARMRegisters
@@ -88,6 +104,7 @@ enum ARMRegisters
   r13 = 0,
   r14 = 0,
   r15,
-  cpsr,
-  sprs
+  IPSR,
+  SP
 };
+

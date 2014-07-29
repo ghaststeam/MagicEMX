@@ -1,6 +1,6 @@
 #include <windows.h>
 #include "/Firmware/FlashBlobs.hpp"
-// Will change to WxWidgets later
+// Will change to another GUI system later
 #define IDM_MYMENURESOURCE   3
 int APIENTRY WinMain(HINSTANCE hThis, HINSTANCE hPrev, LPSTR cmd, int Show)
 {

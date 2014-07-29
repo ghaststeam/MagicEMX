@@ -1,0 +1,9 @@
+# Set the default behavior for files
+* text=lf
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.cpp text
+*.hpp text
+
+# Denote all files that are truly binary and should not be modified.

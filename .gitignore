@@ -1,0 +1,75 @@
+# Compiled source #
+######################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.deb
+*.rpm
+*.msi
+*.msm
+*.msp
+
+# Archives #
+######################
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.bzip
+*.bz2
+*.xz
+*.lzma
+*.cab
+
+# Backups #
+######################
+*.bak
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.AppleDouble
+.LSOverride
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.directory
+
+# CVS #
+######################
+/CVS/*
+*/CVS/*
+.cvsignore
+*/.cvsignore
+
+# Mercurial/HG #
+######################
+/.hg/*
+*/.hg/*
+.hgignore
+
+# SVN #
+######################
+.svn/

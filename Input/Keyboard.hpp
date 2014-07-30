@@ -20,7 +20,7 @@ struct callbacks
    "WORDPACK"
  };
 }
-enum Buttons
+enum Buttons // Need to add share button, touch pad click, home button, and add axis to analog sticks
 {
 CROSS = 0x00;
 SQUARE = 0x08;
@@ -38,4 +38,3 @@ R1 = 0x60;
 R2 = 0x68;
 OPTION = 0x70;
 };
-

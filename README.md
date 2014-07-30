@@ -15,7 +15,7 @@ PS4EMX is a project to create a PS4 emulator/virtual machine that can run on Win
 
 5. Run Orbis OS and PS4 games alongside Windows and other operating systems.
 
-List of emulated PS4 hardware:
+List of emulated PS4 hardware (eventually):
 ======
 
 1. 8-core AMD 64-bit "Jaguar" CPU (dual quad-core x86 architecture AMD CPU's)
@@ -25,7 +25,7 @@ List of emulated PS4 hardware:
 5. Emulation of PS4 hard drive
 6. Emulation of PS4 flash chips (more research required)
 7. Emulation of networking and PSN/SEN
-8. Emulation of PlayStation peripherals (PS Eye, PS Move, controllers, keyboards, headsets, etc)
+8. Emulation of PlayStation peripherals (PS Eye, PS Move, controllers, keyboards, mice, headsets, etc)
 
 FAQs:
 ======

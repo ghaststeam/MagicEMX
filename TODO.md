@@ -16,7 +16,7 @@ TODO:
 1. Implement a debugger, disassembler, memory editor, etc. (to make reversing easier through the emulator)
 1. Implement extra nice to have features (higher resolutions, frame rate cap removal, NTSC/PAL conversion, english translations, aspect ratio patching, etc.)
 
-*NOTE: These may require more research
+*NOTE: These will require more research.
 
 
 All of these things are subject to change, however in general they can be implemented as well as anything.

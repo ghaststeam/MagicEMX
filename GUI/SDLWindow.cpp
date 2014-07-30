@@ -1,4 +1,4 @@
-// For cross-platform  a library such as Qt or Agar could do but I have no time now.
+// A cross-platform GUI library will be used later.
 #include "SDL/SDL.h"
 #include "SDL_opengl.h"
 #include "/AMDx86-64CORE/AMDx86-64.hpp"

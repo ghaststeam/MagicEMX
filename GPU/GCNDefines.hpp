@@ -2,8 +2,6 @@
 #include <thread>
 #include "PS4EMX/AMDx86-64CORE/AMDx86-64.hpp"
 ///////////////////////
-void SetThread();
-void SetInterpreter();
 bool RendererIsOn = 0;
 bool ExtResFBO = 0;
 //////////////////////
@@ -37,28 +35,24 @@ struct ControlFlow
  uBYTE NO_OP_CT_MAX = 8;
  bool INIT_TRAP_HANDLER;
  bool RETURN_TRAP;
- const uBYTE TRAP_PRIORITY;
+ const uBYTE TRAP_PRIORITY = 1;
  uWORD WAVEFRONT_SLEEP;
  uBYTE *MSG_INTERRUPT = NULL;
  bool UNCONDITIONAL_SET;
  uBYTE *SWAP_PC_SGPR = NULL;
  bool IGNORE_VECTOR_IN;
 } CTRL;
-struct Threading
-{
- thread THREAD_CU (SetThread);
- thread FPU_SSRCOP (SetInterpreter);
-} RDN_THREAD;
 struct Render_FBORes
 {
 short *HQ_ModesDefine = NULL;
 short FBO_Vertex;
 
+
 } FBO_Mode;
 static short screen_width = 1920;
 static short screen_height = 1080;
 int totalPCs = 1200;
-extern static long long int PC = 0, 0;
+static long int PC = 0;
 /////////////////////////////////////////////////////////////////////
 void SETPAIR_SGPR_PC(short &PAIRTYPE, int conditional);
 void SWAP_PCADDR_SGPR(short &addrP);
@@ -89,7 +83,4 @@ const char *GPU_REGS[] =
 "SGPR10",
 "SGPR11",
 "SGPR12",
-
-} GPU_REG;
-
-// Not useable; it needs a lot of work
+};

@@ -1,6 +1,7 @@
 #include <GL/gl.h>
 #include <thread>
 #include "PS4EMX/AMDx86-64CORE/AMDx86-64.hpp"
+
 ///////////////////////
 bool RendererIsOn = 0;
 bool ExtResFBO = 0;
@@ -19,7 +20,14 @@ int TexCacheC4L2;
 int *workitemprv = NULL;
 int *workitemgrp = NULL;
 int *SIMDops = NULL;
-int *exec_mask = NULL;
+int *exec_mask1 = NULL;
+int *exec_mask2 = NULL;
+int *STATUS_CODE = NULL;
+int *MODE_REGISTER_CODE = NULL;
+int base_clock = 800000000;
+short VGPRs[255]; 
+short SGPRs[103];
+short LDS[0x8000];
 ////////////////////
 struct Conditions
 {
@@ -83,4 +91,46 @@ const char *GPU_REGS[] =
 "SGPR10",
 "SGPR11",
 "SGPR12",
+};
+const char *SCALAR_INSTRUCTIONS[] =
+{
+"S_ENDPGM",
+"S_NOP",
+"S_TRAP",
+"S_RFE",
+"S_SETPRIO",
+"S_SLEEP",
+"S_SENDMSG",
+"S_BRANCH",
+"S_BRANCH_TEST",
+"S_SETPC",
+"S_SWAPPC",
+"S_GETPC",
+"S_CBRANCH_FORK",
+"S_CBRANCH_JOIN",
+"S_SETVSKIP",
+"S_BARRIER",
+"S_WAITCNT",
+"S_SETREG",
+"S_GETREG",
+"S_CBRANCH",
+"S_CBRANCH_I/G_FORK",
+"S_CBRANCH_JOIN",
+"S_ADD_I32",
+"S_ADD_U32",
+"S_ADDC_U32",
+"S_SUB_I32",
+"S_SUB_U32",
+"S_SUBB_U32",
+"S_ABSDIFF_I32",
+"S_MIN_I32",
+"S_MIN_U32",
+"S_MAX_I32",
+"S_MAX_U32",
+"S_MUL_I32",
+"S_ADDK_I32",
+"S_MULK_I32",
+"S_ABS_I32",
+"S_SEXT_I32_I8",
+"S_SEXT_I32_I16",
 };

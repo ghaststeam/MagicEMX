@@ -27,7 +27,7 @@ struct BaseInterrupts
 {
   uBYTE ROMDBG;
   uBYTE SINGLESTEP;
-  uBYTE NMI;
+  uBYTE NMI; //Probably never used in an emulator except for x87 exceptions.
   uBYTE OVERFLOW;
   uBYTE PRINTV;
   uBYTE SLEEPWAKE;
@@ -38,9 +38,13 @@ struct BaseInterrupts
 ///////////
 ///////////
 void InitRegister();
+
+//TODO: CPU cache is transparent to x86 programs.
 bool CacheLookUp(uQUAD &address, bool typeS);
 uBYTE CPU_Cache = 4;
 uBYTE Cache_Types = 28;
+
+//TODO: Add x87, MMX, SSE, SSE2, SSE3... yada yada registers.
 struct Register_List
 {
   // 8-bit
@@ -72,7 +76,7 @@ struct Register_List
   uDOUBLE ESI;
   uDOUBLE EDI;
   uDOUBLE EFLAGS;
-  uWORD EIP;
+  uDOUBLE EIP;
   // 64-bit
   uQUAD RAX;
   uQUAD RCX;
@@ -112,6 +116,9 @@ const char *FLAGS[] =
   "Nested",
   "/Reserved"
 };
+
+//TODO: Should probably merge Unreal mode with Protected mode, since unreal mode is
+//just a glitch in protected mode to bypass the MMU. Also, what are DefaultMode and 16BitMode and who put them there?
 const char *CPU_Operating_Mode[] =
 {
   "LongMode",
@@ -136,12 +143,12 @@ const char *Threads[] =
 };
 
 
-uQUAD ProgramCounter = 0x00;
+uQUAD ProgramCounter = 0xFFFFFFFFFFFFFFF0; //TODO: Making this start at the x86 reset vector for now. HLE may require changes to this.
 
 
 struct operands_addressing
 {
-const char *operand[14] =
+const char *operand[] =
 {
 "m8",
 "m16",

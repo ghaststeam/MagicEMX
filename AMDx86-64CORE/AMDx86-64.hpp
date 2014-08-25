@@ -44,51 +44,39 @@ bool CacheLookUp(uQUAD &address, bool typeS);
 uBYTE CPU_Cache = 4;
 uBYTE Cache_Types = 28;
 
+//TODO: relies on little-endian.
+union reg64
+{
+  struct
+  {
+    uBYTE l;
+    uBYTE h;
+  } parts;
+  uWORD w;
+  uDOUBLE d;
+  uQUAD q;
+};
+
 //TODO: Add x87, MMX, SSE, SSE2, SSE3... yada yada registers.
 struct Register_List
 {
-  // 8-bit
-  uBYTE AH;
-  uBYTE AL;
-  uBYTE CH;
-  uBYTE CL;
-  uBYTE DH;
-  uBYTE DL;
-  uBYTE BH;
-  uBYTE BL;
-  // 16-bit
-  uWORD AX;
-  uWORD CX;
-  uWORD DX;
-  uWORD BX;
-  uWORD SP;
-  uWORD BP;
-  uWORD SI;
-  uWORD DI;
-  uWORD IP;
-  // 32-bit
-  uDOUBLE EAX;
-  uDOUBLE ECX;
-  uDOUBLE EDX;
-  uDOUBLE EBX;
-  uDOUBLE ESP;
-  uDOUBLE EBP;
-  uDOUBLE ESI;
-  uDOUBLE EDI;
-  uDOUBLE EFLAGS;
-  uDOUBLE EIP;
-  // 64-bit
-  uQUAD RAX;
-  uQUAD RCX;
-  uQUAD RDX;
-  uQUAD RBX;
-  uQUAD RSP;
-  uQUAD RBP;
-  uQUAD RSI;
-  uQUAD RDI;
-  uQUAD RIP;
+  reg64 R[16]; //R0-R7 equate to RAX, RCX, RDX, RBX, RSP, RBP, RSI, and RDI respectively.
   
+  u16 CS;
+  u16 SS;
+  u16 DS;
+  u16 ES;
+  u16 FS;
+  u16 GS;
   
+  u16 GDTR;
+  u16 IDTR;
+  u16 LDTR;
+  u16 TR;
+  
+  u64 CR[16];
+  
+  uQUAD RFLAGS;
 } REGISTER;
 const char *REG_SUB_TYPE[] =
 {

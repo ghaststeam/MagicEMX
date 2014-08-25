@@ -44,51 +44,68 @@ bool CacheLookUp(uQUAD &address, bool typeS);
 uBYTE CPU_Cache = 4;
 uBYTE Cache_Types = 28;
 
-//TODO: Add x87, MMX, SSE, SSE2, SSE3... yada yada registers.
+//TODO: relies on little-endian.
+union reg64
+{
+  struct
+  {
+    uBYTE l;
+    uBYTE h;
+  };
+  uWORD w;
+  uDOUBLE d;
+  uQUAD q;
+};
+
+struct x87reg
+{
+  sWORD exp;
+  uQUAD mmx; //Used for both x87 and MMX.
+};
+
+union ymmreg
+{
+  uQUAD q[4];
+  uDOUBLE d[8];
+  uWORD w[16];
+  uBYTE b[32];
+  float f[8];
+  double df[4];
+};
+
 struct Register_List
 {
-  // 8-bit
-  uBYTE AH;
-  uBYTE AL;
-  uBYTE CH;
-  uBYTE CL;
-  uBYTE DH;
-  uBYTE DL;
-  uBYTE BH;
-  uBYTE BL;
-  // 16-bit
-  uWORD AX;
-  uWORD CX;
-  uWORD DX;
-  uWORD BX;
-  uWORD SP;
-  uWORD BP;
-  uWORD SI;
-  uWORD DI;
-  uWORD IP;
-  // 32-bit
-  uDOUBLE EAX;
-  uDOUBLE ECX;
-  uDOUBLE EDX;
-  uDOUBLE EBX;
-  uDOUBLE ESP;
-  uDOUBLE EBP;
-  uDOUBLE ESI;
-  uDOUBLE EDI;
-  uDOUBLE EFLAGS;
-  uDOUBLE EIP;
-  // 64-bit
-  uQUAD RAX;
-  uQUAD RCX;
-  uQUAD RDX;
-  uQUAD RBX;
-  uQUAD RSP;
-  uQUAD RBP;
-  uQUAD RSI;
-  uQUAD RDI;
+  reg64 R[16]; //R0-R7 equate to RAX, RCX, RDX, RBX, RSP, RBP, RSI, and RDI respectively.
+  
+  uWORD CS;
+  uWORD SS;
+  uWORD DS;
+  uWORD ES;
+  uWORD FS;
+  uWORD GS;
+  
+  uWORD GDTR;
+  uWORD IDTR;
+  uWORD LDTR;
+  uWORD TR;
+  
+  uQUAD CR[16];
+  
   uQUAD RIP;
   
+  uQUAD RFLAGS;
   
+  //x87/MMX
+  
+  x87reg ST[8];
+  
+  //SSE/AVX
+  uDOUBLE MXCSR;
+  ymmreg YMM[16];
+  
+  uWORD x87_CW;
+  uWORD x87_SW;
+  uWORD x87_TW;
 } REGISTER;
 const char *REG_SUB_TYPE[] =
 {

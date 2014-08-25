@@ -27,7 +27,7 @@ struct BaseInterrupts
 {
   uBYTE ROMDBG;
   uBYTE SINGLESTEP;
-  uBYTE NMI;
+  uBYTE NMI; //Probably never used in an emulator except for x87 exceptions.
   uBYTE OVERFLOW;
   uBYTE PRINTV;
   uBYTE SLEEPWAKE;
@@ -38,53 +38,45 @@ struct BaseInterrupts
 ///////////
 ///////////
 void InitRegister();
+
+//TODO: CPU cache is transparent to x86 programs.
 bool CacheLookUp(uQUAD &address, bool typeS);
 uBYTE CPU_Cache = 4;
 uBYTE Cache_Types = 28;
+
+//TODO: relies on little-endian.
+union reg64
+{
+  struct
+  {
+    uBYTE l;
+    uBYTE h;
+  } parts;
+  uWORD w;
+  uDOUBLE d;
+  uQUAD q;
+};
+
+//TODO: Add x87, MMX, SSE, SSE2, SSE3... yada yada registers.
 struct Register_List
 {
-  // 8-bit
-  uBYTE AH;
-  uBYTE AL;
-  uBYTE CH;
-  uBYTE CL;
-  uBYTE DH;
-  uBYTE DL;
-  uBYTE BH;
-  uBYTE BL;
-  // 16-bit
-  uWORD AX;
-  uWORD CX;
-  uWORD DX;
-  uWORD BX;
-  uWORD SP;
-  uWORD BP;
-  uWORD SI;
-  uWORD DI;
-  uWORD IP;
-  // 32-bit
-  uDOUBLE EAX;
-  uDOUBLE ECX;
-  uDOUBLE EDX;
-  uDOUBLE EBX;
-  uDOUBLE ESP;
-  uDOUBLE EBP;
-  uDOUBLE ESI;
-  uDOUBLE EDI;
-  uDOUBLE EFLAGS;
-  uWORD EIP;
-  // 64-bit
-  uQUAD RAX;
-  uQUAD RCX;
-  uQUAD RDX;
-  uQUAD RBX;
-  uQUAD RSP;
-  uQUAD RBP;
-  uQUAD RSI;
-  uQUAD RDI;
-  uQUAD RIP;
+  reg64 R[16]; //R0-R7 equate to RAX, RCX, RDX, RBX, RSP, RBP, RSI, and RDI respectively.
   
+  u16 CS;
+  u16 SS;
+  u16 DS;
+  u16 ES;
+  u16 FS;
+  u16 GS;
   
+  u16 GDTR;
+  u16 IDTR;
+  u16 LDTR;
+  u16 TR;
+  
+  u64 CR[16];
+  
+  uQUAD RFLAGS;
 } REGISTER;
 const char *REG_SUB_TYPE[] =
 {
@@ -112,6 +104,9 @@ const char *FLAGS[] =
   "Nested",
   "/Reserved"
 };
+
+//TODO: Should probably merge Unreal mode with Protected mode, since unreal mode is
+//just a glitch in protected mode to bypass the MMU. Also, what are DefaultMode and 16BitMode and who put them there?
 const char *CPU_Operating_Mode[] =
 {
   "LongMode",
@@ -136,12 +131,12 @@ const char *Threads[] =
 };
 
 
-uQUAD ProgramCounter = 0x00;
+uQUAD ProgramCounter = 0xFFFFFFFFFFFFFFF0; //TODO: Making this start at the x86 reset vector for now. HLE may require changes to this.
 
 
 struct operands_addressing
 {
-const char *operand[14] =
+const char *operand[] =
 {
 "m8",
 "m16",

@@ -99,14 +99,37 @@ struct Register_List
   
   x87reg ST[8];
   
+  uWORD x87_CW;
+  uWORD x87_SW;
+  uWORD x87_TW;
+  
   //SSE/AVX
   uDOUBLE MXCSR;
   ymmreg YMM[16];
   
-  uWORD x87_CW;
-  uWORD x87_SW;
-  uWORD x87_TW;
 } REGISTER;
+
+enum RegType
+{
+  BYTE, WORD, DWORD, QWORD, MMX, SSE, AVX, SEG, CR, DR
+};
+
+struct ModRM16
+{
+  RegType srctype, dsttype;
+  uBYTE *srcbyte;
+  uBYTE *dstbyte;
+  uWORD *srcword;
+  uWORD *dstword;
+  uDOUBLE *srcdword;
+  uDOUBLE *dstdword;
+  uQUAD *srcqword;
+  uQUAD *dstqword;
+  
+  ymmreg *srcymm;
+  ymmreg *dstymm;
+}; 
+
 const char *REG_SUB_TYPE[] =
 {
   "NONE",

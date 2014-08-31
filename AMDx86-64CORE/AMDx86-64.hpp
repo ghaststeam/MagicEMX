@@ -73,16 +73,19 @@ union ymmreg
   double df[4];
 };
 
+struct segdesc
+{
+  uQUAD base; //Can only be changed for FS and GS.
+  uDOUBLE limit;
+  uBYTE access;
+};
+
 struct Register_List
 {
   reg64 R[16]; //R0-R7 equate to RAX, RCX, RDX, RBX, RSP, RBP, RSI, and RDI respectively.
   
-  uWORD CS;
-  uWORD SS;
-  uWORD DS;
-  uWORD ES;
-  uWORD FS;
-  uWORD GS;
+  uWORD segs[8]; //CS, SS, DS, ES, FS, and GS in that order. 2 are unused for efficiency.
+  segdesc segdescs[8];
   
   uWORD GDTR;
   uWORD IDTR;
@@ -111,10 +114,10 @@ struct Register_List
 
 enum RegType
 {
-  BYTE, WORD, DWORD, QWORD, MMX, SSE, AVX, SEG, CR, DR
+  BYTE, WORD, DWORD, QWORD, XMM, YMM
 };
 
-struct ModRM16
+struct ModRM
 {
   RegType srctype, dsttype;
   uBYTE *srcbyte;

@@ -28,6 +28,9 @@ int base_clock = 800000000;
 short VGPRs[255]; 
 short SGPRs[103];
 short LDS[0x8000];
+uQUAD TRAP_BASE_ADDRESS;
+uQUAD TRAP_MEMORY_ADDRESS;
+uDOUBLE TRAP_STATUS;
 ////////////////////
 struct Conditions
 {
@@ -67,6 +70,7 @@ void SWAP_PCADDR_SGPR(short &addrP);
 void ColorDepthBuffer_WR(short &vertexop, void*, int microcode_es);
 const char *GPU_REGS[] =
 {
+ // There are 256 vector registers and 104 scalar registers.
 "VGPR1",
 "VGPR2",
 "VGPR3",
@@ -94,6 +98,7 @@ const char *GPU_REGS[] =
 };
 const char *SCALAR_INSTRUCTIONS[] =
 {
+ // There are also vector instructions, which can be microcode-formatted.
 "S_ENDPGM",
 "S_NOP",
 "S_TRAP",
@@ -133,4 +138,15 @@ const char *SCALAR_INSTRUCTIONS[] =
 "S_ABS_I32",
 "S_SEXT_I32_I8",
 "S_SEXT_I32_I16",
+};
+const char *VECTOR_INSTRUCTIONS[] =
+{
+ // Three microcode formats: VOP1, VOP2, VOP3.
+ "V_NOP",
+ // VOP3-only instructions
+ "V_ADD_64",
+ "V_MUL_64",
+ // Logic instructions
+ "V_CMP",
+ "V_CMPX",
 };

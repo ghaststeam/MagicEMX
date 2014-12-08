@@ -78,13 +78,14 @@
 	  uQUAD base; //Can only be changed for FS and GS.
 	  uDOUBLE limit;
 	  uBYTE access;
+		uBYTE flags;
 	};
 	
 	struct Register_List
 	{
 	  reg64 R[16]; //R0-R7 equate to RAX, RCX, RDX, RBX, RSP, RBP, RSI, and RDI respectively.
 	  
-	  uWORD segs[8]; //CS, SS, DS, ES, FS, and GS in that order. 2 are unused for efficiency.
+	  uWORD segs[8]; //ES, CS, DS, SS, FS, and GS in that order. 2 are unused for efficiency.
 	  segdesc segdescs[8];
 	  
 	  uWORD GDTR;
@@ -98,6 +99,8 @@
 	  
 	  uQUAD RFLAGS;
 	  
+		uQUAD EFER;
+
 	  //x87/MMX
 	  
 	  x87reg ST[8];

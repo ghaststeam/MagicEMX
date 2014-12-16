@@ -21,6 +21,7 @@
 	struct OperandInfo
 	{
 		int bits;
+		bool hl; //High or low byte. Only applies with 8-bit register operands.
 		ModRMDecType type;
 		int reg;
 		int memseg; //index into segs and segdescs arrays
@@ -31,6 +32,7 @@
 	struct OpInfo
 	{
 		OperandInfo src1, src2, dst;
+		uBYTE rex;
 		int addrbits;
 		std::string op;
 	};
@@ -124,6 +126,12 @@
 			OperandInfo* reg = (info->src1.type == REGMEM) ? &info->dst : &info->src1;
 			
 			reg->reg = (modrm >> 3) & 7;
+			if(reg->bits == 8)
+			{
+				reg->reg &= 3;
+				if(modrm & 0x20) reg->hl = true;
+				else reg->hl = false;
+			}
 			switch(modrm >> 6)
 			{
 				case 0:
@@ -299,6 +307,12 @@
 				{
 					regmem->type = DEC_GPR;
 					regmem->reg = modrm & 7;
+					if(regmem->bits == 8)
+					{
+						regmem->reg &= 3;
+						if(modrm & 4) regmem->hl = true;
+						else regmem->hl = false;
+					}
 					break;
 				}
 			}
@@ -306,6 +320,14 @@
 
 		void DecodeModRm64(OpInfo* info) //TODO
 		{
+			uBYTE modrm;
+			
+			reglist.RIP++;
+
+			OperandInfo* regmem = (info->src1.type == REGMEM) ? &info->src1 : &info->dst;
+			OperandInfo* reg = (info->src1.type == REGMEM) ? &info->dst : &info->src1;
+
+			
 		}
 
 		void DecodeModRM(OpInfo* info)
@@ -337,6 +359,16 @@
 
 			res.src1.memseg = DEFAULTSEG;
 			res.dst.memseg = DEFAULTSEG;
+
+			switch(op1) //TODO: Reassign op1 at the end of each prefix.
+			{
+				case 0x40 ... 0x4f:
+				{
+					res.rex = op1 & 0x0f;
+					reglist.RIP++;
+					break;
+				}
+			}
 
 			switch(op1)
 			{

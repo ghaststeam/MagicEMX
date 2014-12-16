@@ -13,6 +13,11 @@
 		RM16, RM32, VM16, VM16E0, VM16E1, PM16, PM32, CM16, CM32, PM64
 	};
 
+	enum CPUSegs
+	{
+		ES, CS, SS, DS, FS, GS, INVALID, DEFAULTSEG = 8;
+	};
+
 	struct OperandInfo
 	{
 		int bits;
@@ -20,7 +25,6 @@
 		int reg;
 		int memseg; //index into segs and segdescs arrays
 		uQUAD memoff;
-		bool imm;
 		uQUAD immval;
 	};
 
@@ -110,9 +114,218 @@
 			}
 		}
 
+		void DecodeModRM16(OpInfo* info)
+		{
+			uBYTE modrm;
+
+			reglist.RIP++;
+
+			OperandInfo* regmem = (info->src1.type == REGMEM) ? &info->src1 : &info->dst;
+			OperandInfo* reg = (info->src1.type == REGMEM) ? &info->dst : &info->src1;
+			
+			reg->reg = (modrm >> 3) & 7;
+			switch(modrm >> 6)
+			{
+				case 0:
+				{
+					switch(modrm & 7)
+					{
+						case 0:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + reglist.R[6].w;
+							break;
+						}
+						case 1:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + reglist.R[7].w;
+							break;
+						}
+						case 2:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + reglist.R[6].w;
+							break;
+						}
+						case 3:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + reglist.R[7].w;
+							break;
+						}
+						case 4:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[6].w;
+							break;
+						}
+						case 5:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[7].w;
+							break;
+						}
+						case 6:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = tmp;
+							break;
+						}
+						case 7:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w;
+							break;
+						}
+					}
+					break;
+				}
+				case 1:
+				{
+					sBYTE tmp;
+					reglist.RIP++;
+					switch(modrm & 7)
+					{
+						case 0:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + reglist.R[6].w + tmp;
+							break;
+						}
+						case 1:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + reglist.R[7].w + tmp;
+							break;
+						}
+						case 2:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + reglist.R[6].w + tmp;
+							break;
+						}
+						case 3:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + reglist.R[7].w + tmp;
+							break;
+						}
+						case 4:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[6].w + tmp;
+							break;
+						}
+						case 5:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[7].w + tmp;
+							break;
+						}
+						case 6:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + tmp;
+							break;
+						}
+						case 7:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + tmp;
+							break;
+						}
+					}
+					break;
+				}
+				case 2:
+				{
+					sWORD tmp;
+					reglist.RIP+=2;
+					switch(modrm & 7)
+					{
+						case 0:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + reglist.R[6].w + tmp;
+							break;
+						}
+						case 1:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + reglist.R[7].w + tmp;
+							break;
+						}
+						case 2:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + reglist.R[6].w + tmp;
+							break;
+						}
+						case 3:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + reglist.R[7].w + tmp;
+							break;
+						}
+						case 4:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[6].w + tmp;
+							break;
+						}
+						case 5:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[7].w + tmp;
+							break;
+						}
+						case 6:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = SS;
+							regmem->memoff = reglist.R[5].w + tmp;
+							break;
+						}
+						case 7:
+						{
+							if(regmem->memseg == DEFAULTSEG) regmem->memseg = DS;
+							regmem->memoff = reglist.R[3].w + tmp;
+							break;
+						}
+					}
+					break;
+				}
+				case 3:
+				{
+					regmem->type = DEC_GPR;
+					regmem->reg = modrm & 7;
+					break;
+				}
+			}
+		}
+
+		void DecodeModRm64(OpInfo* info) //TODO
+		{
+		}
+
 		void DecodeModRM(OpInfo* info)
 		{
-			
+			switch(DecodeCPUMode())
+			{
+				case RM16:
+				case RM32: //?
+				case PM16:
+				case CM16:
+				{
+					DecodeModRM16(info);
+					break;
+				}
+				default:
+				{
+					DecodeModRM64(info);
+					break;
+				}
+			}
 		}
 
 	  OpInfo DecodeOp()
@@ -121,6 +334,9 @@
 			uBYTE op1; //TODO: Assign the first opcode byte to op1.
 			
 			reglist.RIP++;
+
+			res.src1.memseg = DEFAULTSEG;
+			res.dst.memseg = DEFAULTSEG;
 
 			switch(op1)
 			{
@@ -184,7 +400,7 @@
 				}
 				case 0x06:
 				{
-					if(DecodeCPUMode != PM64)
+					if(DecodeCPUMode() != PM64)
 					{
 						res.src1.reg = 0;
 						res.op = "PUSH";
@@ -194,7 +410,7 @@
 				}
 				case 0x07:
 				{
-					if(DecodeCPUMode != PM64)
+					if(DecodeCPUMode() != PM64)
 					{
 						res.src1.reg = 0;
 						res.op = "POP";

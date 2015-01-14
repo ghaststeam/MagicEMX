@@ -41,6 +41,7 @@ int base_clock = 800000000; // Base frequency speed for the GPU clock
 short VGPRs[255]; // Every VGPR (vector-general-purpose-register) for SIMD
 short SGPRs[103]; // Every SGPR (scalar-general-purpose-register) for SIMD
 short LDS[0x8000]; // Local data share memory per compute-unit
+short GDS[0x8000]; // Global date share memory for all wavefronts/CUs
 uQUAD TRAP_BASE_ADDRESS; // 64-bit base address of the trap handler
 uQUAD TRAP_MEMORY_ADDRESS; // 64-bit value representing the trap handler memory range
 uDOUBLE TRAP_STATUS; // 32-bit value representing the status of the trap handler
@@ -78,7 +79,7 @@ short FBO_Vertex;
 } FBO_Mode;
 
 static short screen_width = 1920; // Internal X resolutions
-static short screen_height = 1080; // Intern Y resolutions
+static short screen_height = 1080; // Internal Y resolutions
 int totalPCs = 1200; // All program counters and then some (for LLE)
 /////////////////////////////////////////////////////////////////////
 
@@ -157,10 +158,39 @@ const char *VECTOR_INSTRUCTIONS[] =
 {
  // Three microcode formats: VOP1, VOP2, VOP3.
  "V_NOP",
- // VOP3-only instructions
+ // VOP3-only instructions (I think)
  "V_ADD_64",
+ "V_ADD_32"
  "V_MUL_64",
+ "V_MUL_32",
+ "V_ADD_64",
+ "V_ADD_32",
+ "V_SUB_64",
+ "V_SUB_32",
  // Logic instructions
  "V_CMP",
  "V_CMPX",
 };
+// VECTOR FUNCTIONS
+#define MICROEQ_VECT_NOP
+// No operation
+void VNOP();
+#define MICROEQ_VECT_CMP_FLOAT32
+// Compare two float-values from VGPRs
+void VCF32(uDOUBLE &vecA, uDOUBLE &vecB);
+#define MICROEQ_VECT_CMP_FLOAT64
+// Compare two sets of 32-bit float values from VGPRS to combine two 32 bit float values to 64-bit
+void VCF64(uDOUBLE &vecA1, uDOUBLE &vecA2, uDOUBLE &vecB1, uDOUBLE &vecB2);
+#define MICROEQ_VECT_MUL_FLOAT32
+// Multiply two float-values and return the sum in another register
+void MF32(uDOUBLE &vecA, uDOUBLE &vecB, uDOUBLE &To, bool sign);
+#define MICROEQ_VECT_MUL_FLOAT64
+// Multiply two sets of 32-bit float values from VGPRs to combine two 32 bit float values to 64-bit
+void MF64(uDOUBLE &vecA1, uDOUBLE &vecA2, uDOUBLE &vecB1, uDOUBLE &vecB2, uDOUBLE &To, bool sign);
+#define MICROEQ_VECT_SUB_FLOAT32
+// Subtract two float-values and return the sum in another register
+void SF32(uDOUBLE &vecA, uDOUBLE &vecB, uDOUBLE &To, bool sign);
+#define MICROEQ_VECT_SUB_FLOAT64
+// Subtract two sets of 32-bit float values from VGPRs to combine two 32 bit float values to 64-bit
+void SF64(uDOUBLE &vecA1, uDOUBLE &vecA2, uDOUBLE &vecB1, uDOUBLE &vecB2, uDOUBLE &To, bool sign);
+

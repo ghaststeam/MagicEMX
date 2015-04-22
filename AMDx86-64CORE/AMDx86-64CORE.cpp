@@ -15,7 +15,7 @@
 
 	enum CPUSegs
 	{
-		ES, CS, SS, DS, FS, GS, INVALID, DEFAULTSEG = 8;
+		ES, CS, SS, DS, FS, GS, INVALID, DEFAULTSEG = 8
 	};
 
 	struct OperandInfo
@@ -119,9 +119,8 @@
 		void DecodeModRM16(OpInfo* info)
 		{
 			uBYTE modrm;
-
+			uBYTE tmp;
 			reglist.RIP++;
-
 			OperandInfo* regmem = (info->src1.type == REGMEM) ? &info->src1 : &info->dst;
 			OperandInfo* reg = (info->src1.type == REGMEM) ? &info->dst : &info->src1;
 			
@@ -344,7 +343,7 @@
 				}
 				default:
 				{
-					DecodeModRM64(info);
+					DecodeModRm64(info);
 					break;
 				}
 			}
@@ -510,7 +509,7 @@
 				}
 				case 0x0e:
 				{
-					if(DecodeCPUMode != PM64)
+					if(DecodeCPUMode() != PM64)
 					{
 						res.src1.reg = 1;
 						res.op = "PUSH";
@@ -624,7 +623,7 @@
 				}
 				case 0x16:
 				{
-					if(DecodeCPUMode != PM64)
+					if(DecodeCPUMode() != PM64)
 					{
 						res.src1.reg = 2;
 						res.op = "PUSH";
@@ -634,7 +633,7 @@
 				}
 				case 0x17:
 				{
-					if(DecodeCPUMode != PM64)
+					if(DecodeCPUMode() != PM64)
 					{
 						res.src1.reg = 2;
 						res.op = "POP";

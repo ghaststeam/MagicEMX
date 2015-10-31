@@ -76,6 +76,7 @@ struct Render_FBOResExt
 {
 short *HQ_ModesDefine = NULL;
 short FBO_Vertex;
+void GLbaseColorSwap(bool redbur, bool redbur, bool greenbur, bool alpharange);
 } FBO_Mode;
 
 static short screen_width = 1920; // Internal X resolutions
@@ -193,4 +194,11 @@ void SF32(uDOUBLE &vecA, uDOUBLE &vecB, uDOUBLE &To, bool sign);
 #define MICROEQ_VECT_SUB_FLOAT64
 // Subtract two sets of 32-bit float values from VGPRs to combine two 32 bit float values to 64-bit
 void SF64(uDOUBLE &vecA1, uDOUBLE &vecA2, uDOUBLE &vecB1, uDOUBLE &vecB2, uDOUBLE &To, bool sign);
+#define MICROQEQ_CMP
+// Compare two VGPR registers
+void VR_CMP(uDOUBLE &vecA1, uDOUBLE &vecA2);
 
+struct ShaderPipelineModes
+{
+ // I'll finish this when the required external dependencies are set up for dynamic translation
+}

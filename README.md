@@ -1,1 +1,3 @@
-Due to changes in the project, the README will need to be updated, but not anytime soon.
+MagicEMX -- the newly refined PS4, Xbone and iOS emulation/simulation software suite WIP.
+
+More in-depth details to be added soon....
